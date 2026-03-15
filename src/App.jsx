@@ -3,7 +3,17 @@ import { getTasks } from "./services/taskService";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import TaskFilter from "./components/TaskFilter";
-import { Container, Typography, Box, Divider, Button } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  Stack,
+  Paper,
+  Snackbar,
+  Alert,
+  CircularProgress,
+} from "@mui/material";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -11,8 +21,32 @@ function App() {
   const [page, setPage] = useState(0);
   const [size] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const showSnackbar = (message, severity = "success") => {
+    setSnackbar({
+      open: true,
+      message,
+      severity,
+    });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({
+      ...prev,
+      open: false,
+    }));
+  };
 
   const loadTasks = () => {
+    setLoading(true);
+
     getTasks({
       ...filters,
       page,
@@ -24,6 +58,10 @@ function App() {
       })
       .catch((error) => {
         console.error("Error fetching tasks:", error);
+        showSnackbar("Error fetching tasks", "error");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -34,6 +72,21 @@ function App() {
   const handleFilterChange = (newFilters) => {
     setPage(0);
     setFilters(newFilters);
+  };
+
+  const handleTaskCreated = () => {
+    loadTasks();
+    showSnackbar("Task created successfully", "success");
+  };
+
+  const handleTaskDeleted = () => {
+    loadTasks();
+    showSnackbar("Task deleted successfully", "success");
+  };
+
+  const handleTaskUpdated = () => {
+    loadTasks();
+    showSnackbar("Task updated successfully", "success");
   };
 
   const handlePreviousPage = () => {
@@ -49,57 +102,112 @@ function App() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ marginTop: 4 }}>
-      <Typography variant="h4" gutterBottom align="center">
-        Task Manager
-      </Typography>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        backgroundColor: "background.default",
+        py: 5,
+      }}
+    >
+      <Container maxWidth="md">
+        <Stack spacing={3}>
+          <Box textAlign="center">
+            <Typography variant="h3" sx={{ mb: 1 }}>
+              Task Manager
+            </Typography>
 
-      <Box sx={{ marginBottom: 3 }}>
-        <TaskForm onTaskCreated={loadTasks} />
-      </Box>
+            <Typography variant="body1" color="text.secondary">
+              Organize your tasks, update priorities, and track progress in one place.
+            </Typography>
+          </Box>
 
-      <Divider sx={{ marginBottom: 3 }} />
+          <TaskForm
+            onTaskCreated={handleTaskCreated}
+            onTaskCreateError={() => showSnackbar("Error creating task", "error")}
+          />
 
-      <TaskFilter onFilterChange={handleFilterChange} />
+          <TaskFilter onFilterChange={handleFilterChange} />
 
-      <Box sx={{ marginTop: 3 }}>
-        <TaskList
-          tasks={tasks}
-          onTaskDeleted={loadTasks}
-          onTaskUpdated={loadTasks}
-        />
-      </Box>
+          <Paper elevation={1} sx={{ p: 3 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Task List
+            </Typography>
 
-      <Box
-        sx={{
-          marginTop: 3,
-          display: "flex",
-          justifyContent: "center",
-          gap: 2,
-          alignItems: "center",
-        }}
+            {loading ? (
+              <Box sx={{ py: 6, textAlign: "center" }}>
+                <CircularProgress />
+              </Box>
+            ) : tasks.length > 0 ? (
+              <TaskList
+                tasks={tasks}
+                onTaskDeleted={handleTaskDeleted}
+                onTaskUpdated={handleTaskUpdated}
+                onTaskDeleteError={() => showSnackbar("Error deleting task", "error")}
+                onTaskUpdateError={() => showSnackbar("Error updating task", "error")}
+              />
+            ) : (
+              <Box sx={{ py: 6, textAlign: "center" }}>
+                <Typography variant="h6" sx={{ mb: 1 }}>
+                  No tasks found
+                </Typography>
+
+                <Typography color="text.secondary">
+                  Try creating a new task or adjusting your filters.
+                </Typography>
+              </Box>
+            )}
+          </Paper>
+
+          <Paper elevation={1} sx={{ p: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                flexWrap: "wrap",
+              }}
+            >
+              <Button
+                variant="outlined"
+                onClick={handlePreviousPage}
+                disabled={page === 0}
+              >
+                Previous
+              </Button>
+
+              <Typography sx={{ fontWeight: 500 }}>
+                Page {page + 1} of {totalPages === 0 ? 1 : totalPages}
+              </Typography>
+
+              <Button
+                variant="outlined"
+                onClick={handleNextPage}
+                disabled={page >= totalPages - 1}
+              >
+                Next
+              </Button>
+            </Box>
+          </Paper>
+        </Stack>
+      </Container>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Button
-          variant="outlined"
-          onClick={handlePreviousPage}
-          disabled={page === 0}
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: "100%" }}
         >
-          Previous
-        </Button>
-
-        <Typography>
-          Page {page + 1} of {totalPages === 0 ? 1 : totalPages}
-        </Typography>
-
-        <Button
-          variant="outlined"
-          onClick={handleNextPage}
-          disabled={page >= totalPages - 1}
-        >
-          Next
-        </Button>
-      </Box>
-    </Container>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 }
 

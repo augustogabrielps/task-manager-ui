@@ -1,85 +1,19 @@
-body {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f4f6f8;
+  padding: 0;
 }
 
-h1 {
-  text-align: center;
-}
-
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 30px;
-}
-
-.card {
-  background: white;
-  padding: 16px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  margin-bottom: 16px;
-}
-
-input,
-select {
-  padding: 8px;
-  margin-right: 8px;
-  margin-bottom: 8px;
-}
-
-button {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #eee;
-}
-
-.form-row {
-  margin-bottom: 10px;
-}
-
-.badge {
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: bold;
-  margin-left: 6px;
-}
-
-/* STATUS */
-
-.status-todo {
-  background-color: #e0e0e0;
-  color: #333;
-}
-
-.status-progress {
-  background-color: #d0e7ff;
-  color: #0b5394;
-}
-
-.status-done {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-/* PRIORITY */
-
-.priority-low {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.priority-medium {
-  background-color: #fff3cd;
-  color: #856404;
-}
-
-.priority-high {
-  background-color: #f8d7da;
-  color: #721c24;
+body {
+  font-family: "Inter", "Roboto", "Helvetica", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
