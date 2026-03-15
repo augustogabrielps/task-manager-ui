@@ -1,130 +1,136 @@
 # Task Manager UI
 
-Frontend application for the **Task Manager API**, built with **React** and **Vite**.
+Frontend application for the **Task Manager API**, built with **React, Vite, and Material UI**.
 
-This interface allows users to create, view, update, filter, and delete tasks through a web interface connected to a backend REST API.
+This interface allows users to create, view, update, filter, and delete tasks through a clean web interface connected to a backend REST API.
 
-The project was designed as a simple personal task management tool that runs locally and can later be deployed to a **Raspberry Pi** for home use.
+The project was designed as a **simple personal task management tool**, initially intended to run locally and later be deployed to a **Raspberry Pi for home usage**.
 
 ---
 
 # Tech Stack
 
+Frontend
+
 - React
 - Vite
 - JavaScript
+- Material UI
 - Axios
-- CSS
 
----
-
-# Project Overview
-
-The UI communicates with the backend **Task Manager API**, built with:
+Backend (separate project)
 
 - Java
 - Spring Boot
 - PostgreSQL
 - Docker
 
-The frontend consumes the API endpoints and renders a dynamic task management interface.
+---
 
-Main features currently implemented:
+# Features
 
-- Create tasks
+The application currently supports:
+
+### Task Management
+
+- Create new tasks
 - Update task status
 - Update task priority
-- Delete tasks
-- Filter tasks
-- Pagination
-
----
-
-# Requirements
-
-Before running the project, make sure you have:
-
-- Node.js 20+
-- npm
-- The backend **Task Manager API** running locally
-
----
-
-# Project Structure
-
-```bash
-src/
-├── components/
-│   ├── TaskForm.jsx
-│   ├── TaskList.jsx
-│   └── TaskFilter.jsx
-│
-├── services/
-│   ├── api.js
-│   └── taskService.js
-│
-├── App.jsx
-├── main.jsx
-└── index.css
-## Features
-
-### Create Tasks
-
-Users can create new tasks with:
-
-- name
-- description
-- due date
-- priority
-
-### Update Tasks
-
-Tasks can be updated directly in the interface:
-
-- Change status
-- Change priority
-
-### Delete Tasks
-
-Tasks can be removed from the list.
+- Delete tasks with confirmation dialog
 
 ### Filtering
 
 Tasks can be filtered by:
 
+- text search
 - status
 - priority
-- text search
 
 ### Pagination
 
-Tasks are loaded in pages to improve performance when the dataset grows.
+Tasks are loaded using paginated requests from the backend API.
+
+### User Experience
+
+- Snackbar feedback for actions
+- Loading indicators
+- Confirmation dialog for destructive actions
+- Modern UI using Material UI
 
 ---
 
-## Running the Project
+# Project Structure
+```
+src
+├── components
+│ ├── TaskForm.jsx
+│ ├── TaskList.jsx
+│ └── TaskFilter.jsx
+│
+├── services
+│ ├── api.js
+│ └── taskService.js
+│
+├── App.jsx
+├── main.jsx
+├── theme.js
+└── index.css
 
-### Install dependencies
 
-```bash
+---
+
+# Running the Project
+
+## 1 Install dependencies
+```
 npm install
 
-Start development server
-```bash
+
+## 2 Start the development server
+```
 npm run dev
 
-Access the application
-```bash
-http://localhost:5173
 
-Backend API
+## 3 Open the application
+```
+http://localhost:5173/
+
+
+---
+
+# Backend API
 
 This UI requires the backend API running locally.
 
 Default API URL:
-```bash 
+```
 http://localhost:8080
 
+
 Related backend project:
-```bash
-Task Manager API (Spring Boot backend)
+
+**Task Manager API (Spring Boot backend)**
+
+---
+
+# Future Improvements
+
+Possible improvements for the project:
+
+- Dark mode support
+- Skeleton loading states
+- Date formatting improvements
+- Drag and drop task organization
+- Authentication
+
+---
+
+# Purpose of the Project
+
+This project was built as a **learning exercise and portfolio project**, demonstrating:
+
+- Integration between React and a REST API
+- Component-based frontend architecture
+- State management using React hooks
+- Modern UI development with Material UI
+- Full CRUD operations with a backend service
