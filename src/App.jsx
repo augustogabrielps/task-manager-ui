@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { getTasks } from "./services/taskService";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
+import TaskFilter from "./components/TaskFilter";
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [filters, setFilters] = useState({});
 
   const loadTasks = () => {
-    getTasks()
+    getTasks(filters)
       .then((response) => {
         setTasks(response.data.content);
       })
@@ -18,7 +20,7 @@ function App() {
 
   useEffect(() => {
     loadTasks();
-  }, []);
+  }, [filters]);
 
   return (
     <div style={{ padding: "24px", maxWidth: "700px", margin: "auto" }}>
@@ -27,6 +29,8 @@ function App() {
       <TaskForm onTaskCreated={loadTasks} />
 
       <hr />
+
+      <TaskFilter onFilterChange={setFilters} />
 
       <TaskList
         tasks={tasks}
