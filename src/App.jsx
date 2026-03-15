@@ -3,6 +3,7 @@ import { getTasks } from "./services/taskService";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import TaskFilter from "./components/TaskFilter";
+import { Container, Typography, Box, Divider, Button } from "@mui/material";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -48,47 +49,57 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <h1>Task Manager</h1>
+    <Container maxWidth="md" sx={{ marginTop: 4 }}>
+      <Typography variant="h4" gutterBottom align="center">
+        Task Manager
+      </Typography>
 
-      <div className="card">
-        <h3>Create Task</h3>
+      <Box sx={{ marginBottom: 3 }}>
         <TaskForm onTaskCreated={loadTasks} />
-      </div>
+      </Box>
 
-      <div className="card">
-        <h3>Filters</h3>
-        <TaskFilter onFilterChange={handleFilterChange} />
-      </div>
+      <Divider sx={{ marginBottom: 3 }} />
 
-      <TaskList
-        tasks={tasks}
-        onTaskDeleted={loadTasks}
-        onTaskUpdated={loadTasks}
-      />
+      <TaskFilter onFilterChange={handleFilterChange} />
 
-      <div
-        style={{
-          marginTop: "20px",
+      <Box sx={{ marginTop: 3 }}>
+        <TaskList
+          tasks={tasks}
+          onTaskDeleted={loadTasks}
+          onTaskUpdated={loadTasks}
+        />
+      </Box>
+
+      <Box
+        sx={{
+          marginTop: 3,
           display: "flex",
-          gap: "10px",
-          alignItems: "center",
           justifyContent: "center",
+          gap: 2,
+          alignItems: "center",
         }}
       >
-        <button onClick={handlePreviousPage} disabled={page === 0}>
+        <Button
+          variant="outlined"
+          onClick={handlePreviousPage}
+          disabled={page === 0}
+        >
           Previous
-        </button>
+        </Button>
 
-        <span>
+        <Typography>
           Page {page + 1} of {totalPages === 0 ? 1 : totalPages}
-        </span>
+        </Typography>
 
-        <button onClick={handleNextPage} disabled={page >= totalPages - 1}>
+        <Button
+          variant="outlined"
+          onClick={handleNextPage}
+          disabled={page >= totalPages - 1}
+        >
           Next
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Container>
   );
 }
 

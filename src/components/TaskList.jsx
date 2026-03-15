@@ -1,4 +1,14 @@
 import { deleteTask, updateTask } from "../services/taskService";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Select,
+  MenuItem,
+  Box,
+  Chip,
+} from "@mui/material";
 
 function TaskList({ tasks, onTaskDeleted, onTaskUpdated }) {
   const handleDelete = async (id) => {
@@ -34,76 +44,80 @@ function TaskList({ tasks, onTaskDeleted, onTaskUpdated }) {
     }
   };
 
-  const getStatusClass = (status) => {
-    if (status === "TODO") return "badge status-todo";
-    if (status === "IN_PROGRESS") return "badge status-progress";
-    if (status === "DONE") return "badge status-done";
-    return "badge";
+  const getStatusColor = (status) => {
+    if (status === "TODO") return "default";
+    if (status === "IN_PROGRESS") return "primary";
+    if (status === "DONE") return "success";
+    return "default";
   };
 
-  const getPriorityClass = (priority) => {
-    if (priority === "LOW") return "badge priority-low";
-    if (priority === "MEDIUM") return "badge priority-medium";
-    if (priority === "HIGH") return "badge priority-high";
-    return "badge";
+  const getPriorityColor = (priority) => {
+    if (priority === "LOW") return "success";
+    if (priority === "MEDIUM") return "warning";
+    if (priority === "HIGH") return "error";
+    return "default";
   };
 
   return (
     <div>
       {tasks.map((task) => (
-        <div key={task.id} className="card">
-          <h3>{task.name}</h3>
+        <Card key={task.id} sx={{ marginBottom: 2 }}>
+          <CardContent>
+            <Typography variant="h6">{task.name}</Typography>
 
-          <p>{task.description || "No description"}</p>
+            <Typography color="text.secondary" sx={{ marginBottom: 1 }}>
+              {task.description || "No description"}
+            </Typography>
 
-          <div style={{ marginBottom: "10px" }}>
-            Status:
-            <span className={getStatusClass(task.status)}>
-              {task.status}
-            </span>
+            <Typography variant="body2" sx={{ marginBottom: 2 }}>
+              Due date: {task.dueDate || "Not defined"}
+            </Typography>
 
-            {" "}Priority:
-            <span className={getPriorityClass(task.priority)}>
-              {task.priority}
-            </span>
-          </div>
+            <Box sx={{ display: "flex", gap: 1, marginBottom: 2 }}>
+              <Chip
+                label={task.status}
+                color={getStatusColor(task.status)}
+                variant="outlined"
+              />
 
-          <p>
-            Due date: <strong>{task.dueDate || "Not defined"}</strong>
-          </p>
+              <Chip
+                label={task.priority}
+                color={getPriorityColor(task.priority)}
+                variant="outlined"
+              />
+            </Box>
 
-          <div className="form-row">
-            <label>
-              Status:{" "}
-              <select
+            <Box sx={{ display: "flex", gap: 2, marginBottom: 2 }}>
+              <Select
+                size="small"
                 value={task.status}
                 onChange={(e) => handleStatusChange(task, e.target.value)}
               >
-                <option value="TODO">TODO</option>
-                <option value="IN_PROGRESS">IN_PROGRESS</option>
-                <option value="DONE">DONE</option>
-              </select>
-            </label>
-          </div>
+                <MenuItem value="TODO">TODO</MenuItem>
+                <MenuItem value="IN_PROGRESS">IN_PROGRESS</MenuItem>
+                <MenuItem value="DONE">DONE</MenuItem>
+              </Select>
 
-          <div className="form-row">
-            <label>
-              Priority:{" "}
-              <select
+              <Select
+                size="small"
                 value={task.priority}
                 onChange={(e) => handlePriorityChange(task, e.target.value)}
               >
-                <option value="LOW">LOW</option>
-                <option value="MEDIUM">MEDIUM</option>
-                <option value="HIGH">HIGH</option>
-              </select>
-            </label>
-          </div>
+                <MenuItem value="LOW">LOW</MenuItem>
+                <MenuItem value="MEDIUM">MEDIUM</MenuItem>
+                <MenuItem value="HIGH">HIGH</MenuItem>
+              </Select>
+            </Box>
 
-          <button onClick={() => handleDelete(task.id)}>
-            Delete
-          </button>
-        </div>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => handleDelete(task.id)}
+            >
+              Delete
+            </Button>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );
