@@ -41,3 +41,45 @@ button:hover {
 .form-row {
   margin-bottom: 10px;
 }
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 6px;
+}
+
+/* STATUS */
+
+.status-todo {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.status-progress {
+  background-color: #d0e7ff;
+  color: #0b5394;
+}
+
+.status-done {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* PRIORITY */
+
+.priority-low {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.priority-medium {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.priority-high {
+  background-color: #f8d7da;
+  color: #721c24;
+}

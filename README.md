@@ -1,16 +1,130 @@
-# React + Vite
+# Task Manager UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend application for the **Task Manager API**, built with **React** and **Vite**.
 
-Currently, two official plugins are available:
+This interface allows users to create, view, update, filter, and delete tasks through a web interface connected to a backend REST API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The project was designed as a simple personal task management tool that runs locally and can later be deployed to a **Raspberry Pi** for home use.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Tech Stack
 
-## Expanding the ESLint configuration
+- React
+- Vite
+- JavaScript
+- Axios
+- CSS
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+# Project Overview
+
+The UI communicates with the backend **Task Manager API**, built with:
+
+- Java
+- Spring Boot
+- PostgreSQL
+- Docker
+
+The frontend consumes the API endpoints and renders a dynamic task management interface.
+
+Main features currently implemented:
+
+- Create tasks
+- Update task status
+- Update task priority
+- Delete tasks
+- Filter tasks
+- Pagination
+
+---
+
+# Requirements
+
+Before running the project, make sure you have:
+
+- Node.js 20+
+- npm
+- The backend **Task Manager API** running locally
+
+---
+
+# Project Structure
+
+```bash
+src/
+├── components/
+│   ├── TaskForm.jsx
+│   ├── TaskList.jsx
+│   └── TaskFilter.jsx
+│
+├── services/
+│   ├── api.js
+│   └── taskService.js
+│
+├── App.jsx
+├── main.jsx
+└── index.css
+## Features
+
+### Create Tasks
+
+Users can create new tasks with:
+
+- name
+- description
+- due date
+- priority
+
+### Update Tasks
+
+Tasks can be updated directly in the interface:
+
+- Change status
+- Change priority
+
+### Delete Tasks
+
+Tasks can be removed from the list.
+
+### Filtering
+
+Tasks can be filtered by:
+
+- status
+- priority
+- text search
+
+### Pagination
+
+Tasks are loaded in pages to improve performance when the dataset grows.
+
+---
+
+## Running the Project
+
+### Install dependencies
+
+```bash
+npm install
+
+Start development server
+```bash
+npm run dev
+
+Access the application
+```bash
+http://localhost:5173
+
+Backend API
+
+This UI requires the backend API running locally.
+
+Default API URL:
+```bash 
+http://localhost:8080
+
+Related backend project:
+```bash
+Task Manager API (Spring Boot backend)

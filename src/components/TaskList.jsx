@@ -34,6 +34,20 @@ function TaskList({ tasks, onTaskDeleted, onTaskUpdated }) {
     }
   };
 
+  const getStatusClass = (status) => {
+    if (status === "TODO") return "badge status-todo";
+    if (status === "IN_PROGRESS") return "badge status-progress";
+    if (status === "DONE") return "badge status-done";
+    return "badge";
+  };
+
+  const getPriorityClass = (priority) => {
+    if (priority === "LOW") return "badge priority-low";
+    if (priority === "MEDIUM") return "badge priority-medium";
+    if (priority === "HIGH") return "badge priority-high";
+    return "badge";
+  };
+
   return (
     <div>
       {tasks.map((task) => (
@@ -41,6 +55,18 @@ function TaskList({ tasks, onTaskDeleted, onTaskUpdated }) {
           <h3>{task.name}</h3>
 
           <p>{task.description || "No description"}</p>
+
+          <div style={{ marginBottom: "10px" }}>
+            Status:
+            <span className={getStatusClass(task.status)}>
+              {task.status}
+            </span>
+
+            {" "}Priority:
+            <span className={getPriorityClass(task.priority)}>
+              {task.priority}
+            </span>
+          </div>
 
           <p>
             Due date: <strong>{task.dueDate || "Not defined"}</strong>
