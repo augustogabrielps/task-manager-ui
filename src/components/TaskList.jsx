@@ -18,46 +18,65 @@ function TaskList({ tasks, onTaskDeleted, onTaskUpdated }) {
 
       onTaskUpdated();
     } catch (error) {
-      console.error("Error updating task", error);
+      console.error("Error updating task status", error);
+    }
+  };
+
+  const handlePriorityChange = async (task, newPriority) => {
+    try {
+      await updateTask(task.id, {
+        priority: newPriority,
+      });
+
+      onTaskUpdated();
+    } catch (error) {
+      console.error("Error updating task priority", error);
     }
   };
 
   return (
     <div>
       {tasks.map((task) => (
-        <div
-          key={task.id}
-          style={{
-            border: "1px solid #ddd",
-            padding: "12px",
-            marginBottom: "10px",
-            borderRadius: "8px",
-            background: "white",
-          }}
-        >
+        <div key={task.id} className="card">
           <h3>{task.name}</h3>
 
-          <p>{task.description}</p>
+          <p>{task.description || "No description"}</p>
 
           <p>
-            Priority: <strong>{task.priority}</strong>
+            Due date: <strong>{task.dueDate || "Not defined"}</strong>
           </p>
 
-          <label>
-            Status:{" "}
-            <select
-              value={task.status}
-              onChange={(e) => handleStatusChange(task, e.target.value)}
-            >
-              <option value="TODO">TODO</option>
-              <option value="IN_PROGRESS">IN_PROGRESS</option>
-              <option value="DONE">DONE</option>
-            </select>
-          </label>
-
-          <div style={{ marginTop: "10px" }}>
-            <button onClick={() => handleDelete(task.id)}>Delete</button>
+          <div className="form-row">
+            <label>
+              Status:{" "}
+              <select
+                value={task.status}
+                onChange={(e) => handleStatusChange(task, e.target.value)}
+              >
+                <option value="TODO">TODO</option>
+                <option value="IN_PROGRESS">IN_PROGRESS</option>
+                <option value="DONE">DONE</option>
+              </select>
+            </label>
           </div>
+
+          <div className="form-row">
+            <label>
+              Priority:{" "}
+              <select
+                value={task.priority}
+                onChange={(e) => handlePriorityChange(task, e.target.value)}
+              >
+                <option value="LOW">LOW</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="HIGH">HIGH</option>
+              </select>
+            </label>
+          </div>
+
+          <button onClick={() => handleDelete(task.id)}>
+            Delete
+          </button>
         </div>
       ))}
     </div>

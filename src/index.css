@@ -1,4 +1,43 @@
 body {
   margin: 0;
-  background-color: #f5f5f5;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f8;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 16px;
+}
+
+input,
+select {
+  padding: 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #eee;
+}
+
+.form-row {
+  margin-bottom: 10px;
 }
